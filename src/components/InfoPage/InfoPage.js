@@ -3,7 +3,8 @@ import { Button } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import ReactTable from "react-table";
-import 'react-table/react-table.css'
+import 'react-table/react-table.css';
+import './InfoPage.css';
 
 
 // This is one of our simplest components
@@ -23,26 +24,34 @@ class InfoPage extends React.Component {
     selectedCommittee: null,
     data: [],
     showTable: true,
+    showData: [],
   }
 
   gardenTeamOptions = [
-    { value: '1', label: 'Boulder Garden' },
-    { value: '2', label: 'Butterfly Garden' },
-    { value: '3', label: 'Connie Getsch Garden' },
-    { value: '4', label: 'Gazebo Garden' },
-    { value: '5', label: 'Wheel Garden' }
+    { value: '1', label: 'Boulder' },
+    { value: '2', label: 'Butterfly' },
+    { value: '3', label: 'Connie Getsch' },
+    { value: '4', label: 'Gazebo' },
+    { value: '5', label: 'Wheel' },
+    { value: '6', label: 'Affiliate' }
   ];
 
   committeeOptions = [
-    { value: '1', label: 'Executive' },
-    { value: '2', label: 'Historian' },
-    { value: '3', label: 'Hospitality' },
-    { value: '4', label: 'Host' },
-    { value: '5', label: 'Garden Design' },
-    { value: '6', label: 'Garden Maintenance' },
-    { value: '7', label: 'Outreach' },
-    { value: '8', label: 'Programs' },
-    { value: '9', label: 'Sunshine' },
+    { value: '1', label: 'President' },
+    { value: '2', label: 'Vice President' },
+    { value: '3', label: 'Secretary' },
+    { value: '4', label: 'Treasurer' },
+    { value: '5', label: 'Web Manager' },
+    { value: '6', label: 'Growth Spurts' },
+    { value: '7', label: 'Historian' },
+    { value: '8', label: 'Hospitality' },
+    { value: '9', label: 'Host' },
+    { value: '10', label: 'Garden Design' },
+    { value: '11', label: 'Garden Maintenance' },
+    { value: '12', label: 'Outreach' },
+    { value: '13', label: 'Programs' },
+    { value: '14', label: 'Sunshine' },
+    { value: '15', label: 'Affiliate' }
   ];
 
   columns = [{
@@ -96,11 +105,16 @@ class InfoPage extends React.Component {
 
   handleChangeGardenTeam = (newSelectedOption) => {
     console.log('newSelectedOption', newSelectedOption);
-    this.setState({ ... this.state, selectedGardenTeam: newSelectedOption });
-  }
+    console.log(this.state.data); // the filter is called on the array this.state.data
+    let result = this.state.data.filter(member => member.Garden_Name == newSelectedOption.label);// only return this member if the garden name == the label of what was selected in the dropdown
+    console.log(result);
+    this.setState({ ... this.state, selectedGardenTeam: newSelectedOption, selectedCommittee: null, showData: result });
+  }     // only showData will be updated
 
   handleChangeCommittee = (newSelectedOption) => {
-    this.setState({ ... this.state, selectedCommittee: newSelectedOption });
+    let result = this.state.data.filter(member => member.Committee_Name == newSelectedOption.label);
+    this.setState({ ... this.state, selectedCommittee: newSelectedOption, selectedGardenTeam: null, showData: result });
+    
   }
 
   // GET Request for responses from the database
@@ -108,8 +122,8 @@ class InfoPage extends React.Component {
     axios.get('/api/member')
       .then((response) => {
         console.log('this is the response for the member info', response);
-        this.setState({ ... this.state, data: response.data });
-        console.log(this.state);
+        this.setState({ ... this.state, data: response.data, showData: response.data });// data is a master list of all members so it will never change
+        console.log(this.state);                  // showData is the data to be shown in the table and photo views. It will change based on the filters
         // this.props.dispatch({
         //   type:'GET_MEMBERINFO',
         //   payload: response.data
@@ -128,16 +142,19 @@ class InfoPage extends React.Component {
 
   createMemberCards() {
     let children = [] // React requires a key prop for elements that are pushed into an array to identify them
-    for (let i = 0; i < this.state.data.length-1; i++) {
-      console.log('Image', this.state.data[i]);
+    for (let i = 0; i < this.state.showData.length; i++) {
+      console.log('Image', this.state.showData[i]);
       // let imgName = require("../../images/" + this.state.data[i].img_url)
-      let imgName = require("../../images/" + this.state.data[i].img_url)
-      children.push(<div className="Genres" key={i}> 
-        <div className="card border=secondary mb-3">
-          <div className="text-center">
-          <img src={imgName} style={{width:"300px",height:"400px"}}></img>
-            <h4 className="card-title">{this.state.data[i].first_name} , {this.state.data[i].last_name}</h4>
-            <h6 className="card-text">Text goes here</h6>
+      let imgName = require("../../images/" + this.state.showData[i].img_url)
+      children.push(<div className="Members" key={i}>
+        <div className="card mb-3 col-lg-4 col-md-4 col-sm-4">
+          <div className="text-center card-body">
+            <img src={imgName} style={{ width: "60%" }} className="card-img-top"></img>
+            <h5 className="card-title">{this.state.showData[i].first_name}</h5>
+            <h5 className="card-title">{this.state.showData[i].last_name}</h5>
+            <h6 className="card-text">{this.state.showData[i].mobile}</h6>
+            <h6 className="card-text">{this.state.showData[i].Garden_Name}</h6>
+            <h6 className="card-text">{this.state.showData[i].Committee_Name}</h6>
           </div>
         </div>
       </div>)
@@ -158,6 +175,7 @@ class InfoPage extends React.Component {
             value={this.state.selectedGardenTeam}
             onChange={this.handleChangeGardenTeam}
             options={this.gardenTeamOptions}
+            placeholder='Select a Garden'
           />
         </div>
         <div style={{ width: '200px', height: '50px' }}>
@@ -165,6 +183,7 @@ class InfoPage extends React.Component {
             value={this.state.selectedCommittee}
             onChange={this.handleChangeCommittee}
             options={this.committeeOptions}
+            placeholder='Select a Committee'
           />
         </div>
         {/* react table */}
@@ -172,23 +191,19 @@ class InfoPage extends React.Component {
         {this.state.showTable ?
           <div>
             <ReactTable
-              data={this.state.data}
+              data={this.state.showData} // data is a prop belonging to react table. It stays constant. showData is the members I want to show
               columns={this.columns}
             />
           </div>
           :                               // ternary operator
-          <div>
-            <div className="card-deck">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-md-4" style={{width: "18rem"}}>
-                    {this.createMemberCards()}
 
-                  </div>
-                </div>
-              </div>
-    </div>
-          </div>
+
+          <div className="card-deck">
+            
+              {this.createMemberCards()}
+
+            </div>
+
         }
 
         {/* react grid */}
