@@ -16,7 +16,7 @@ import './InfoPage.css';
 class InfoPage extends React.Component {
 
   componentWillMount() {
-    this.getMemberInfo();
+    this.getMemberInfo(); // calls the getMemberInfo function just before page load to display the table of members
   }
 
   state = {
@@ -103,7 +103,7 @@ class InfoPage extends React.Component {
   },
   ]
 
-  handleChangeGardenTeam = (newSelectedOption) => {
+  handleChangeGardenTeam = (newSelectedOption) => {  // declares the function for when someone chooses a garden team
     console.log('newSelectedOption', newSelectedOption);
     console.log(this.state.data); // the filter is called on the array this.state.data
     let result = this.state.data.filter(member => member.Garden_Name == newSelectedOption.label);// only return this member if the garden name == the label of what was selected in the dropdown
@@ -147,7 +147,7 @@ class InfoPage extends React.Component {
       console.log('Image', this.state.showData[i]);
       // let imgName = require("../../images/" + this.state.data[i].img_url)
       let imgName = require("../../images/" + this.state.showData[i].img_url)
-      children.push(   
+      children.push(   //this creates the html for the card for each member of showData
         <div className="card mb-3 col-lg-4 col-md-4 col-sm-4" key={i}>
           <div className="text-center card-body">
             <img src={imgName} style={{ width: "60%" }} className="card-img-top"></img>

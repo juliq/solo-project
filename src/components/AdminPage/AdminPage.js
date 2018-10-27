@@ -1,128 +1,189 @@
-// import React, { Component } from 'react';
-// import { Button } from 'react-bootstrap';
-// import Select from 'react-select';
-// import FormContainer from './containers/FormContainer';  // not sure what these paths should be
-// import CheckBox from '../components/CheckBox';
-// import Input from '../components/Input';
-// import TextArea from '../components/TextArea';
-// import Select from '../components/Select';
-// import Button from '../components/Button'
+import React, { Component } from "react";
 
+/* Import Components */
 
+import Input from "./Input";
+import Select from "./Select";
+import Button from "./Button";
 
-// // This is one of our simplest components
-// // It doesn't have local state, so it can be a function component.
-// // It doesn't dispatch any redux actions or display any part of redux state
-// // or even care what the redux state is, so it doesn't need 'connect()'
+class AdminPage extends Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      newMember: {
+        first_name: "",
+        last_name: "",
+        mobile: "",
+        email: "",
+        address: "",
+        membership: ""
+      },
 
-// class AdminPage extends React.Component {
-//   constructor(props) {
-//     super(props);
+      membership: ["Active", "Affiliate", "Former"]
+    };
+    // this.handleFirstName = this.handleFirstName.bind(this);
+    // this.handleLastName = this.handleLastName.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    this.handleClearForm = this.handleClearForm.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+  }
 
-//     this.state = {
-//       newMember: {
-//         first_name: '',
-//         last_name: '',
-//         mobile: '',
-//         email: '',
-//         address: '',
-//         city: '',
-//         zipcode: '',
-//         BD: '',
-//         img_url: '',
-//         garden_team_id: '',
-//         captain: '',
-//         committee_id: '',
-//         chair: '',
-//         membership: '',
-//         member_since: '',
-//         year_left: '',
-//         dues_paid: ''
-//       },
+  /* This lifecycle hook gets executed when the component mounts */
 
-//       garden_team_idOptions: ['1', '2', '3', '4', '5', '6'],
-//       captainOptions: ['true', 'false'],
-//       committee_idOptions: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
-//       chairOptions: ['true', 'false'],
-//       membershipOptions: ['Active', 'Affiliate', 'Former'],
-//       dues_paidOptions: ['true', 'false']
-//     }
-//     this.handleFormSubmit = this.handleFormSubmit.bind(this);
-//     this.handleClearForm = this.handleClearForm.bind(this);
-//   }
+  handleInput(e) {
+    let value = e.target.value;
+    let name = e.target.name;
+    this.setState(
+      prevState => ({
+        newMember: {
+          ...prevState.newMember,
+          [name]: value
+        }
+      }),
+      () => console.log(this.state.newMember)
+    );
+  }
 
-//   // handleChangeInput(event) {
-//   //   this.setState({ value: event.target.name })
-//   // }
+  handleTextArea(e) {
+    console.log("Inside handleTextArea");
+    let value = e.target.value;
+    this.setState(
+      prevState => ({
+        newMember: {
+          ...prevState.newMember,
+          about: value
+        }
+      }),
+      () => console.log(this.state.newMember)
+    );
+  }
 
-//   handleFormSubmit(event) {
-//     // Form submission logic
+  handleFormSubmit(e) {
+    e.preventDefault();
+    console.log(this.state.newMember);
+    // let userData = this.state.newMember;
 
-//   }
+    // fetch("http://example.com", {
+    //   method: "POST",
+    //   body: JSON.stringify(userData),
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json"
+    //   }
+    // }).then(response => {
+    //   response.json().then(data => {
+    //     console.log("Successful" + data);
+    //   });
+    // });
+  }
 
-//   handleClearForm(e) {
-//     // Logic for resetting the form
-//     e.preventDefault();
-//     this.setState({
-//       newMember: {
-//         first_name: '',
-//         last_name: '',
-//         mobile: '',
-//         email: '',
-//         address: '',
-//         city: '',
-//         zipcode: '',
-//         BD: '',
-//         img_url: '',
-//         garden_team_id: '',
-//         captain: '',
-//         committee_id: '',
-//         chair: '',
-//         membership: '',
-//         member_since: '',
-//         year_left: '',
-//         dues_paid: ''
-//       }
-//     })
-//   }
+  handleClearForm(e) {
+    e.preventDefault();
+    this.setState({
+      newMember: {
+        first_name: "",
+        last_name: "",
+        mobile: "",
+        email: "",
+        address: "",
+        city: "",
+        zipcode: "",
+        membership: ""
+      }
+    });
+  }
 
-// POST to the server ??
-handleNewMember = () => {
-    axios({
-        method: 'POST',
-        url: '/api.members',
-        data: this.props.members
-    })
-    .then(response => {
-        alert('Success Processing Order');
-        //clear form
-        this.props.dispatch({type: NEWMEMBER.ACTIONS.CLEAR_FORM});  // handleClearForm?
-        //back to member entry page
-        this.props.history.push('/members');
-    })
-    .catch(err => {
-        console.log(err)
-        alert('Error processing order.')
-    })
+  render() {
+    return (
+      <form className="container-fluid" onSubmit={this.handleFormSubmit}>
+        <div className="row">
+          <div className="col-sm-3">
+            <Input
+              inputType={"text"}
+              title={"First Name"}
+              name={"first_name"}
+              value={this.state.newMember.first_name}
+              placeholder={"Enter your first name"}
+              handleChange={this.handleInput}
+            />{" "}
+          </div>
+          {/* Name of the user */}
+          <div className="col-sm-3">
+            <Input
+              inputType={"text"}
+              name={"last_name"}
+              title={"Last Name"}
+              value={this.state.newMember.last_name}
+              placeholder={"Enter your last name"}
+              handleChange={this.handleInput}
+            />{" "}
+          </div>
+        </div>
+        <Input
+          inputType={"number"}
+          name={"mobile"}
+          title={"Mobile"}
+          value={this.state.newMember.mobile}
+          placeholder={"Mobile Number"}
+          handleChange={this.handleInput}
+        />
+        <Input
+          inputType={"text"}
+          name={"address"}
+          title={"Address"}
+          value={this.state.newMember.address}
+          placeholder={"Address"}
+          handleChange={this.handleInput}
+        />
+        <Input
+          inputType={"text"}
+          name={"city"}
+          title={"City"}
+          value={this.state.newMember.city}
+          placeholder={"City"}
+          handleChange={this.handleInput}
+        />
+        <Input
+          inputType={"number"}
+          name={"zipcode"}
+          title={"Zipcode"}
+          value={this.state.newMember.zipcode}
+          placeholder={"Zipcode"}
+          handleChange={this.handleInput}
+        />
+        <Select
+          title={"Membership"}
+          name={"membership"}
+          options={this.state.membership}
+          value={this.state.newMember.membership}
+          placeholder={"Select Membership"}
+          handleChange={this.handleInput}
+        />{" "}
+        {/* Age Selection */}
+        {/* Skill */}
+        {/* About you */}
+        <Button
+          action={this.handleFormSubmit}
+          type={"primary"}
+          title={"Submit"}
+          style={buttonStyle}
+        />{" "}
+        {/*Submit */}
+        <Button
+          action={this.handleClearForm}
+          type={"secondary"}
+          title={"Clear"}
+          style={buttonStyle}
+        />{" "}
+        {/* Clear the form */}
+      </form>
+    );
+  }
 }
 
+const buttonStyle = {
+  margin: "10px 10px 10px 10px"
+};
 
-//   render() {
-
-//     return (
-
-//       <h3>React Form</h3>
-//       <div className="container" onSubmit={this.handleFormSubmit}>
-//         <input />
-
-      
-
-// <Button />
-//       </div >
-//     );
-//   }
-
-
-// }
-// export default AdminPage;
+export default AdminPage;
