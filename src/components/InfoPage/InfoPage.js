@@ -142,21 +142,22 @@ class InfoPage extends React.Component {
 
   createMemberCards() {
     let children = [] // React requires a key prop for elements that are pushed into an array to identify them
+    
     for (let i = 0; i < this.state.showData.length; i++) {
       console.log('Image', this.state.showData[i]);
       // let imgName = require("../../images/" + this.state.data[i].img_url)
       let imgName = require("../../images/" + this.state.showData[i].img_url)
-      children.push(<div className="Members" key={i}>
-        <div className="card mb-3 col-lg-4 col-md-4 col-sm-4">
+      children.push(   
+        <div className="card mb-3 col-lg-4 col-md-4 col-sm-4" key={i}>
           <div className="text-center card-body">
             <img src={imgName} style={{ width: "60%" }} className="card-img-top"></img>
-            <h5 className="card-title">{this.state.showData[i].first_name}</h5>
-            <h5 className="card-title">{this.state.showData[i].last_name}</h5>
+            <h5 className="card-title">{this.state.showData[i].first_name} {this.state.showData[i].last_name}</h5>
+            {/* <h5 className="card-title"></h5> */}
             <h6 className="card-text">{this.state.showData[i].mobile}</h6>
-            <h6 className="card-text">{this.state.showData[i].Garden_Name}</h6>
-            <h6 className="card-text">{this.state.showData[i].Committee_Name}</h6>
+            <p className="card-text">Garden Team: {this.state.showData[i].Garden_Name}</p>
+            <p className="card-text">Committee: {this.state.showData[i].Committee_Name}</p>
           </div>
-        </div>
+        
       </div>)
     }
     return children;
@@ -198,7 +199,7 @@ class InfoPage extends React.Component {
           :                               // ternary operator
 
 
-          <div className="card-deck">
+          <div className="row">
             
               {this.createMemberCards()}
 

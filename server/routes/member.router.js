@@ -2,9 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 
-/**
- * GET route template
- */
+// GET info on all members for populating the Member table
 router.get('/', (req, res) => {
     console.log('get members');
     pool.query(`SELECT "members"."first_name", "members"."last_name", "members"."mobile", "members"."email", "members"."address", "members"."city", "members"."zipcode", "members"."BD", "img_url", "garden_team"."name" AS "Garden_Name", "committee"."name" AS "Committee_Name", "members"."membership", "members"."member_since" 
@@ -20,11 +18,18 @@ router.get('/', (req, res) => {
         })
 });
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
 
+
+// POST => info for adding a new member to the database
+router.post('/', (req, res) => {
+    pool.query(`INSERT INTO "members" ("first_name", "last_name", "mobile", "email", "address", "city", "zipcode", "BD", "img_url", "garden_team_id", "captain", "committee_id", "chair", "membership", "member_since", "year_resigned", "dues_paid" )
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,);` [req.body.members])
+    .then((results) => {
+        res.send(results.rows)
+    }).catch((error) => {
+        console.log('Error with server-side POST:', error);
+        res.send(500);
+    })
 });
 
 module.exports = router;

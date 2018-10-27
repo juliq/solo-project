@@ -87,6 +87,27 @@
 //     })
 //   }
 
+// POST to the server ??
+handleNewMember = () => {
+    axios({
+        method: 'POST',
+        url: '/api.members',
+        data: this.props.members
+    })
+    .then(response => {
+        alert('Success Processing Order');
+        //clear form
+        this.props.dispatch({type: NEWMEMBER.ACTIONS.CLEAR_FORM});  // handleClearForm?
+        //back to member entry page
+        this.props.history.push('/members');
+    })
+    .catch(err => {
+        console.log(err)
+        alert('Error processing order.')
+    })
+}
+
+
 //   render() {
 
 //     return (
