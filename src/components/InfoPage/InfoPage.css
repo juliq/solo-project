@@ -1,4 +1,6 @@
 
 .card {
- height: 380px;   
+    height: 400px;   
+    margin: 10px;
+    /* padding: 20px; */
 }
