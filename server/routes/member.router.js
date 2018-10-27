@@ -36,11 +36,3 @@ router.post('/', (req, res) => {
 
 module.exports = router;
 
-// pool.query(`INSERT INTO "members" ("first_name", "last_name", "mobile", "email", "address", "city", "zipcode", "BD", "img_url", "garden_team_id", "captain", "committee_id", "chair", "membership", "member_since", "year_resigned", "dues_paid" )
-//     VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17);`, [req.body.members])
-//     .then((results) => {
-//         res.send(results.rows)
-//     }).catch((error) => {
-//         console.log('Error with server-side POST:', error);
-//         res.send(500);
-//     })

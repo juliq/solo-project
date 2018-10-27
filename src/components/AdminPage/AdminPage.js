@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 
 /* Import Components */
 
@@ -27,19 +28,56 @@ class AdminPage extends Component {
                 chair: "",
                 membership: "",
                 member_since: "",
-                year_left: "",
+                year_left: null,
                 dues_paid: ""
             },
 
             // BD: (["January","February","March","April","May","June","July","August","September","October","November","December"],
             // ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31"]),
             garden_team_id: ["1 (Boulder)", "2 (Butterfly)", "3 (Connie Getsch", "4 (Gazebo)", "5 (Wheel)", "6 (Affiliate)"],
-            captain: ["True", "False"],
-            committee_id: ["1 (President/Co-President)", "2 (Vice President/Co-Vice President)", "3 (Secretary)", "4 (Treasurer)", "5 (Web Manager)", "6 (Growth Spurts)", "7 (Historian)", "8 (Hospitality)", "9 (Host)", "10 (Garden Design)", "11 (Garden Maintenance)", "12 (Outreach)", "13 (Programs)", "14 (Sunshine)", "15 (Affiliate)"],
-            chair: ["True", "False"],
-            membership: ["Active", "Affiliate", "Former"],
-            dues_paid: ["True", "False"]
-
+            gardenTeamOptions : [
+                { value: 1, label: 'Boulder' },
+                { value: 2, label: 'Butterfly' },
+                { value: 3, label: 'Connie Getsch' },
+                { value: 4, label: 'Gazebo' },
+                { value: 5, label: 'Wheel' },
+                { value: 6, label: 'Affiliate' }
+              ],
+            captain: [
+                { value: true, label: 'True' },
+                { value: false, label: 'False'}
+            ],
+            committee_id: [
+            { value: 1, label: 'President' },
+            { value: 2, label: 'Vice President' },
+            { value: 3, label: 'Secretary' },
+            { value: 4, label: 'Treasurer' },
+            { value: 5, label: 'Web Manager' },
+            { value: 6, label: 'Growth Spurts' },
+            { value: 7, label: 'Historian' },
+            { value: 8, label: 'Hospitality' },
+            { value: 9, label: 'Host' },
+            { value: 10, label: 'Garden Design' },
+            { value: 11, label: 'Garden Maintenance' },
+            { value: 12, label: 'Outreach' },
+            { value: 13, label: 'Programs' },
+            { value: 14, label: 'Sunshine' },
+            { value: 15, label: 'Affiliate' }
+        ],
+            chair: [
+                { value: true, label: 'True' },
+                { value: false, label: 'False'}
+            ],
+            membership: [
+                {value: 'active', label: 'Active' },
+                {value: 'affiliate', label:  'Affiliate' }, 
+                {value: 'former', label: 'Former' },
+            ],
+            dues_paid: [
+                { value: true, label: 'True' },
+                { value: false, label: 'False'}
+            ]
+        
         };
         // this.handleFirstName = this.handleFirstName.bind(this);
         // this.handleLastName = this.handleLastName.bind(this);
@@ -81,20 +119,15 @@ class AdminPage extends Component {
     handleFormSubmit(e) {
         e.preventDefault();
         console.log(this.state.newMember);
-        // let userData = this.state.newMember;
-
-        // fetch("http://example.com", {
-        //   method: "POST",
-        //   body: JSON.stringify(userData),
-        //   headers: {
-        //     Accept: "application/json",
-        //     "Content-Type": "application/json"
-        //   }
-        // }).then(response => {
-        //   response.json().then(data => {
-        //     console.log("Successful" + data);
-        //   });
-        // });
+        axios.post('/api/member', {"members": this.state.newMember}) // newMember includes all the db fields
+        .then((response) => {
+          console.log('this is the response for add member', response.status);
+            if (response.status == 200) {
+                this.handleClearForm(e)
+            }
+        }).catch((error) => {
+          console.log('error making get', error);
+        });
     }
 
     handleClearForm(e) {
@@ -116,7 +149,7 @@ class AdminPage extends Component {
                 chair: "",
                 membership: "",
                 member_since: "",
-                year_left: "",
+                year_left: null,
                 dues_paid: "",
 
             }
@@ -156,6 +189,16 @@ class AdminPage extends Component {
                             title={"Mobile"}
                             value={this.state.newMember.mobile}
                             placeholder={"(no dashes)"}
+                            handleChange={this.handleInput}
+                        />
+                    </div>
+                    <div className="col-sm-2">
+                        <Input
+                            inputType={"text"}
+                            name={"email"}
+                            title={"Email"}
+                            value={this.state.newMember.email}
+                            placeholder={"(Email)"}
                             handleChange={this.handleInput}
                         />
                     </div>
@@ -227,7 +270,7 @@ class AdminPage extends Component {
                         <Select
                             title={"Garden Team ID"}
                             name={"garden_team_id"}
-                            options={this.state.garden_team_id}
+                            options={this.state.gardenTeamOptions}
                             value={this.state.newMember.garden_team_id}
                             placeholder={"Garden Team ID"}
                             handleChange={this.handleInput}
@@ -262,7 +305,7 @@ class AdminPage extends Component {
                             name={"chair"}
                             options={this.state.chair}
                             value={this.state.newMember.chair}
-                            placeholder={"Cmte Chair Option"}
+                            placeholder={"Committee Chair Option"}
                             handleChange={this.handleInput}
                         />
                     </div>
@@ -277,6 +320,17 @@ class AdminPage extends Component {
                             options={this.state.membership}
                             value={this.state.newMember.membership}
                             placeholder={"Select Membership Type"}
+                            handleChange={this.handleInput}
+                        />
+                    </div>
+
+                    <div className="col-sm-2">
+                        <Input
+                            inputType={"number"}
+                            name={"member_since"}
+                            title={"Year Joined Club"}
+                            value={this.state.newMember.member_since}
+                            placeholder={"Year Joined Club"}
                             handleChange={this.handleInput}
                         />
                     </div>
@@ -304,13 +358,6 @@ class AdminPage extends Component {
                     </div>
                 </div>
 
-
-                {" "}
-                {/* Age Selection */}
-                {/* Skill */}
-                {/* About you */}
-
-                ›
                 <Button
                     action={this.handleFormSubmit}
                     type={"primary"}
