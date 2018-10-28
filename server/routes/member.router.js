@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
         body.chair,
         body.membership,
         body.member_since,
-        body.year_left,
+        body.year_resigned,
         body.dues_paid])
         .then((results) => {
             res.send(results.rows)
@@ -102,7 +102,7 @@ router.put('/', (req, res) => {
             req.body.chair,
             req.body.membership,
             req.body.member_since,
-            req.body.year_left,
+            req.body.year_resigned,
             req.body.dues_paid,
             req.body.first_name,
             req.body.last_name])

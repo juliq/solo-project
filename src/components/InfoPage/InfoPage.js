@@ -124,10 +124,6 @@ class InfoPage extends React.Component {
         console.log('this is the response for the member info', response);
         this.setState({ ... this.state, data: response.data, showData: response.data });// data is a master list of all members so it will never change
         console.log(this.state);                  // showData is the data to be shown in the table and photo views. It will change based on the filters
-        // this.props.dispatch({
-        //   type:'GET_MEMBERINFO',
-        //   payload: response.data
-        // })
       }).catch((error) => {
         console.log('error making get', error);
       });
@@ -141,13 +137,13 @@ class InfoPage extends React.Component {
   }
 
   createMemberCards() {
-    let children = [] // React requires a key prop for elements that are pushed into an array to identify them
+    let cards = [] // React requires a key prop for elements that are pushed into an array to identify them
     
     for (let i = 0; i < this.state.showData.length; i++) {
       console.log('Image', this.state.showData[i]);
       // let imgName = require("../../images/" + this.state.data[i].img_url)
       let imgName = require("../../images/" + this.state.showData[i].img_url)
-      children.push(   //this creates the html for the card for each member of showData
+      cards.push(   //this creates the html for the card for each member of showData
         <div className="card mb-3 col-lg-4 col-md-4 col-sm-4" key={i}>
           <div className="text-center card-body">
             <img src={imgName} style={{ width: "60%" }} className="card-img-top"></img>
@@ -160,7 +156,7 @@ class InfoPage extends React.Component {
         
       </div>)
     }
-    return children;
+    return cards;
   }
 
 

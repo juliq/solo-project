@@ -9,9 +9,10 @@ import rootReducer from './redux/reducers'; // imports ./redux/reducers/index.js
 import rootSaga from './redux/sagas'; // imports ./redux/sagas/index.js
 
 import App from './components/App/App';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 import $ from 'jquery';
+import bootstrap from 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import Popper from 'popper.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
