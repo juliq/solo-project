@@ -54,24 +54,65 @@ router.delete('/', (req, res) => {
     console.log('delete a member');
     pool.query(`DELETE FROM "members"
     WHERE "first_name"=$1 AND "last_name"=$2;`,
-    [req.body.first_name,
-    req.body.last_name])
-    .then((results) => {
-        res.send(200)
-    }).catch((error) => {
-        console.log('Error with server-side DELETE:', error);
-        res.send(500);
-    })
+        [req.body.first_name,
+        req.body.last_name])
+        .then((results) => {
+            res.send(200)
+        }).catch((error) => {
+            console.log('Error with server-side DELETE:', error);
+            res.send(500);
+        })
 });
 
-// router.put('/', (req,res) => {
-//     const updatedMember = req.body;
-
-//     const queryText = `UPDATE members
-//     SET "first_name" = $1,
-//     "last_name" = $2,
-//     `
-// })
+router.put('/', (req, res) => {
+    const updatedMember = req.body;
+    console.log('in the edit function');
+    console.log(req.body);
+    pool.query(`UPDATE members
+    SET "first_name" = $1, 
+    "last_name" = $2, 
+    "mobile" = $3, 
+    "email" = $4, 
+    "address" = $5, 
+    "city" = $6, 
+    "zipcode" = $7, 
+    "BD" = $8, 
+    "img_url" = $9, 
+    "garden_team_id" = $10, 
+    "captain" = $11, 
+    "committee_id" = $12,
+    "chair" = $13,
+    "membership" = $14,
+    "member_since" = $15,
+    "year_resigned" = $16,
+    "dues_paid" = $17
+    WHERE "first_name"=$18 AND "last_name"=$19`,
+        [req.body.first_name,
+            req.body.last_name,
+            req.body.mobile,
+            req.body.email,
+            req.body.address,
+            req.body.city,
+            req.body.zipcode,
+            req.body.BD,
+            req.body.img_url,
+            req.body.garden_team_id,
+            req.body.captain,
+            req.body.committee_id,
+            req.body.chair,
+            req.body.membership,
+            req.body.member_since,
+            req.body.year_left,
+            req.body.dues_paid,
+            req.body.first_name,
+            req.body.last_name])
+            .then((results) => {
+                res.send(200)
+            }).catch((error) => {
+                console.log('Error with server-side PUT:', error);
+                res.send(500);
+            })
+})
 
 
 
