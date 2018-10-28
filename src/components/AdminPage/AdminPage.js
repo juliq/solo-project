@@ -40,7 +40,7 @@ class AdminPage extends Component {
 
     createMemberPanels() {
         let panels = [] // React requires a key prop for elements that are pushed into an array to identify them
-
+        console.log(this.state.data);
         for (let i = 0; i < this.state.data.length; i++) {
 
             panels.push(   //this creates the html for the panel for each member of data
@@ -52,7 +52,8 @@ class AdminPage extends Component {
                         <AccordionItemBody>
                             <MemberForm 
                             action = "edit"  // updates the member form based on this function or add
-                            />
+                            member = {this.state.data[i]}  // a javascript variable in html code
+                            />          
                         </AccordionItemBody>
                     </AccordionItem>
             )

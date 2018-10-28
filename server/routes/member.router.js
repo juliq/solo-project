@@ -5,11 +5,11 @@ const router = express.Router();
 // GET info on all members for populating the Member table
 router.get('/', (req, res) => {
     console.log('get members');
-    pool.query(`SELECT "members"."first_name", "members"."last_name", "members"."mobile", "members"."email", "members"."address", "members"."city", "members"."zipcode", "members"."BD", "img_url", "garden_team"."name" AS "Garden_Name", "committee"."name" AS "Committee_Name", "members"."membership", "members"."member_since" 
+    pool.query(`SELECT "members"."first_name", "members"."last_name", "members"."mobile", "members"."email", "members"."address", "members"."city", "members"."zipcode", "members"."BD", "members"."img_url", "members"."garden_team_id", "garden_team"."name" AS "Garden_Name", "members"."captain", "members"."committee_id", "committee"."name" AS "Committee_Name", "members"."chair", "members"."membership", "members"."member_since", "members"."year_resigned", "members"."dues_paid"
     FROM "members" 
     JOIN "garden_team" ON "members"."garden_team_id"="garden_team"."id" 
     JOIN "committee" ON "members"."committee_id"="committee"."id"
-    ORDER BY "last_name"`)
+    ORDER BY "last_name";`)
         .then((results) => {
             res.send(results.rows)
         }).catch((error) => {

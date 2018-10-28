@@ -70,9 +70,9 @@ class MemberForm extends Component {
                 { value: false, label: 'False' }
             ],
             membership: [
-                { value: 'active', label: 'Active' },
-                { value: 'affiliate', label: 'Affiliate' },
-                { value: 'former', label: 'Former' },
+                { value: 'Active', label: 'Active' },
+                { value: 'Affiliate', label: 'Affiliate' },
+                { value: 'Former', label: 'Former' },
             ],
             dues_paid: [
                 { value: true, label: 'True' },
@@ -80,6 +80,11 @@ class MemberForm extends Component {
             ]
 
         };
+
+        if (props.action == 'edit') {
+            this.state.newMember = props.member  // this will pre-populate the newMember in the state with the data that we pass in through the member prop
+        }       // the member prop is on the AdminPage
+
         // this.handleFirstName = this.handleFirstName.bind(this);
         // this.handleLastName = this.handleLastName.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -206,11 +211,11 @@ class MemberForm extends Component {
                         </div>
                         <div className="col-sm-2">
                             <Input
-                                inputType={"number"}
+                                inputType={"text"}
                                 name={"mobile"}
                                 title={"Mobile"}
                                 value={this.state.newMember.mobile}
-                                placeholder={"(no dashes)"}
+                                placeholder={"xxx-xxx-xxxx"}
                                 handleChange={this.handleInput}
                             />
                         </div>
