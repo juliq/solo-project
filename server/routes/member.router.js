@@ -46,21 +46,22 @@ router.post('/', (req, res) => {
             res.send(results.rows)
         }).catch((error) => {
             console.log('Error with server-side POST:', error);
-            res.send(500);
+            res.sendStatus(500);
         })
 });
 
 router.delete('/', (req, res) => {
-    console.log('delete a member');
+    console.log('delete a member', req.body.first_name + " " + req.body.last_name);
     pool.query(`DELETE FROM "members"
     WHERE "first_name"=$1 AND "last_name"=$2;`,
         [req.body.first_name,
         req.body.last_name])
         .then((results) => {
-            res.send(200)
+            console.log( results );
+            res.sendStatus(200)
         }).catch((error) => {
             console.log('Error with server-side DELETE:', error);
-            res.send(500);
+            res.sendStatus(500);
         })
 });
 

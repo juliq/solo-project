@@ -6,7 +6,6 @@ import axios from "axios";
 import Input from "./Input";
 import Select from "./Select";
 import Button from "./Button";
-import swal from 'sweetalert';
 
 
 class MemberForm extends Component {
@@ -84,7 +83,6 @@ class MemberForm extends Component {
             this.state.newMember = props.member  // this will pre-populate the newMember in the state with the data that we pass in through the member prop
         }       // the member prop is on the AdminPage
 
-        this.handleDeleteMember = this.handleDeleteMember.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleClearForm = this.handleClearForm.bind(this);
         this.handleInput = this.handleInput.bind(this);
@@ -128,7 +126,6 @@ class MemberForm extends Component {
                 console.log('this is the response for add member', response.status);
                 if (response.status === 200) {
                     this.handleClearForm(e)
-                    swal("Good job!", "Your member was added to the database!", "success");
                 }
             }).catch((error) => {
                 console.log('error making get', error);
@@ -162,36 +159,21 @@ class MemberForm extends Component {
     }
 
     handleDeleteMember(e) {
-        let fName=this.state.newMember.first_name
-        let lName=this.state.newMember.last_name
-        console.log(fName, lName)
-        swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this file!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
-            .then((willDelete) => {
-                if (willDelete) {
-                    axios.delete('/api/member', {data: {first_name: fName, last_name: lName}})//in axios delete, in order to send a body, need to include body as the value of the data key
-                        .then((response) => {
-                            if (response.status === 200) {
-                                swal("Poof! Your file has been deleted!", {
-                                    icon: "success",
-                                });
-                            }
-                            console.log('this is the response for the member info', response);
-                        }).catch((error) => {
-                            console.log('error deleting member', error);
-                        });
-
-                } else {
-                    swal("Your imaginary file is safe!");
-                }
-            });
         e.preventDefault();
     }
+
+    // DELETE a member
+    // deleteMember = () => {
+    //     axios.delete('/api/member')
+    //       .then((response) => {
+    //         console.log('this is the response for the member info', response);
+    //         this.setState({ ... this.state, data: response.data, showData: response.data });
+    //         console.log(this.state);                  
+
+    //       }).catch((error) => {
+    //         console.log('error making get', error);
+    //       });
+    //   }
 
 
     render() {

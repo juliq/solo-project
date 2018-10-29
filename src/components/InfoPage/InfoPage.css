@@ -1,6 +1,11 @@
 
 .card {
-    height: 400px;   
+    height: 380px;  
+    /* width: 30%;  */
     margin: 10px;
-    /* padding: 20px; */
+    padding: 10px;
+    /* border: none; */
 }
+
+
+/* removed from a div class  style={{ color: "#eee", }}  */

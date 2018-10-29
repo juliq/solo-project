@@ -106,14 +106,14 @@ class InfoPage extends React.Component {
   handleChangeGardenTeam = (newSelectedOption) => {  // declares the function for when someone chooses a garden team
     console.log('newSelectedOption', newSelectedOption);
     console.log(this.state.data); // the filter is called on the array this.state.data
-    let result = this.state.data.filter(member => member.Garden_Name == newSelectedOption.label);// only return this member if the garden name == the label of what was selected in the dropdown
+    let result = this.state.data.filter(member => member.Garden_Name === newSelectedOption.label);// only return this member if the garden name == the label of what was selected in the dropdown
     console.log(result);
-    this.setState({ ... this.state, selectedGardenTeam: newSelectedOption, selectedCommittee: null, showData: result });
+    this.setState({ ...this.state, selectedGardenTeam: newSelectedOption, selectedCommittee: null, showData: result });
   }     // only showData will be updated
 
   handleChangeCommittee = (newSelectedOption) => {
-    let result = this.state.data.filter(member => member.Committee_Name == newSelectedOption.label);
-    this.setState({ ... this.state, selectedCommittee: newSelectedOption, selectedGardenTeam: null, showData: result });
+    let result = this.state.data.filter(member => member.Committee_Name === newSelectedOption.label);
+    this.setState({ ...this.state, selectedCommittee: newSelectedOption, selectedGardenTeam: null, showData: result });
     
   }
 
@@ -122,7 +122,7 @@ class InfoPage extends React.Component {
     axios.get('/api/member')
       .then((response) => {
         console.log('this is the response for the member info', response);
-        this.setState({ ... this.state, data: response.data, showData: response.data });// data is a master list of all members so it will never change
+        this.setState({ ...this.state, data: response.data, showData: response.data });// data is a master list of all members so it will never change
         console.log(this.state);                  // showData is the data to be shown in the table and photo views. It will change based on the filters
       }).catch((error) => {
         console.log('error making get', error);
@@ -141,19 +141,25 @@ class InfoPage extends React.Component {
     
     for (let i = 0; i < this.state.showData.length; i++) {
       console.log('Image', this.state.showData[i]);
+      
       // let imgName = require("../../images/" + this.state.data[i].img_url)
       let imgName = require("../../images/" + this.state.showData[i].img_url)
       cards.push(   //this creates the html for the card for each member of showData
-        <div className="card mb-3 col-lg-4 col-md-4 col-sm-4" key={i}>
-          <div className="text-center card-body">
-            <img src={imgName} style={{ width: "60%" }} className="card-img-top"></img>
-            <h5 className="card-title">{this.state.showData[i].first_name} {this.state.showData[i].last_name}</h5>
+        // <div class="w-25 p-3" style="background-color: #eee;">
+        <div className="card p-3 mb-5 w-25 p-3" key={i}>
+        {/* ^ mb-3 col-lg-4 col-md-4 col-sm-4 */}
+        <div className="shadow p-3 mb-5 bg-white rounded">
+        <div className="card-header text-center"><h5>{this.state.showData[i].first_name} {this.state.showData[i].last_name}</h5></div>
+          <div className="card-body text-center">
+            <img className="card-img-top" alt="member images" src={imgName} style={{ width: "60%" }} ></img>
+            {/* <h5 className="card-title">{this.state.showData[i].first_name} {this.state.showData[i].last_name}</h5> */}
             {/* <h5 className="card-title"></h5> */}
-            <h6 className="card-text">{this.state.showData[i].mobile}</h6>
-            <p className="card-text">Garden Team: {this.state.showData[i].Garden_Name}</p>
-            <p className="card-text">Committee: {this.state.showData[i].Committee_Name}</p>
+            <h6 className="card-subtitle" style={{padding: "10px"}}>{this.state.showData[i].mobile}</h6>
+            <p className="card-subtitle mb-2 text-muted">Garden Team: {this.state.showData[i].Garden_Name}</p>
+            <p className="card-subtitle mb-2 text-muted">Committee: {this.state.showData[i].Committee_Name}</p>
           </div>
-        
+          </div>
+          {/* </div>  */}
       </div>)
     }
     return cards;
@@ -165,7 +171,8 @@ class InfoPage extends React.Component {
 
     return (
       <div style={{ margin: "30px" }}>
-
+      <div className="row" style={{ padding: "20px" }}> 
+      {/* // ^ lines the three buttons up in one row */}
         <Button onClick={this.toggleTable}>{this.state.showTable ? "Member Photos" : "Member List"}</Button>
         <div style={{ width: '200px', height: '50px' }}>
           <Select
@@ -188,7 +195,7 @@ class InfoPage extends React.Component {
         {this.state.showTable ?
           <div>
             <ReactTable
-              data={this.state.showData} // data is a prop belonging to react table. It stays constant. showData is the members I want to show
+              data={this.state.showData} // data is a prop belonging to react table. It stays constant. showData has the members I want to show
               columns={this.columns}
             />
           </div>
@@ -204,7 +211,7 @@ class InfoPage extends React.Component {
         }
 
         {/* react grid */}
-
+        </div>
       </div>
     );
   }
