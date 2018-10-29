@@ -84,6 +84,7 @@ class MemberForm extends Component {
             this.state.newMember = props.member  // this will pre-populate the newMember in the state with the data that we pass in through the member prop
         }       // the member prop is on the AdminPage
 
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.handleDeleteMember = this.handleDeleteMember.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleClearForm = this.handleClearForm.bind(this);
@@ -164,7 +165,6 @@ class MemberForm extends Component {
     handleDeleteMember(e) {
         let fName=this.state.newMember.first_name
         let lName=this.state.newMember.last_name
-        console.log(fName, lName)
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this file!",
@@ -191,6 +191,20 @@ class MemberForm extends Component {
                 }
             });
         e.preventDefault();
+    }
+
+    handleUpdate(e) {
+        e.preventDefault();
+        console.log(this.state.newMember);
+        axios.put('/api/member', this.state.newMember ) // newMember includes all the db fields
+            .then((response) => {
+                console.log('this is the response for update member', response.status);
+                if (response.status === 200) {
+                    swal("Good job!", "Your member was updated in the database!", "success");
+                }
+            }).catch((error) => {
+                console.log('error making update', error);
+            });
     }
 
 
@@ -404,7 +418,7 @@ class MemberForm extends Component {
                     </div>
 
                     <Button
-                        action={this.handleFormSubmit}
+                        action={this.props.action === 'add' ? this.handleFormSubmit : this.handleUpdate}
                         type={"primary"}
                         title={this.props.action === 'add' ? "Submit" : "Update"} //if this.props.action = add, then show the submit button
                         style={buttonStyle}         //add is on the AdminPage

@@ -5,7 +5,7 @@ const router = express.Router();
 // GET info on all members for populating the Member table
 router.get('/', (req, res) => {
     console.log('get members');
-    pool.query(`SELECT "members"."first_name", "members"."last_name", "members"."mobile", "members"."email", "members"."address", "members"."city", "members"."zipcode", "members"."BD", "members"."img_url", "members"."garden_team_id", "garden_team"."name" AS "Garden_Name", "members"."captain", "members"."committee_id", "committee"."name" AS "Committee_Name", "members"."chair", "members"."membership", "members"."member_since", "members"."year_resigned", "members"."dues_paid"
+    pool.query(`SELECT "members"."id", "members"."first_name", "members"."last_name", "members"."mobile", "members"."email", "members"."address", "members"."city", "members"."zipcode", "members"."BD", "members"."img_url", "members"."garden_team_id", "garden_team"."name" AS "Garden_Name", "members"."captain", "members"."committee_id", "committee"."name" AS "Committee_Name", "members"."chair", "members"."membership", "members"."member_since", "members"."year_resigned", "members"."dues_paid"
     FROM "members" 
     JOIN "garden_team" ON "members"."garden_team_id"="garden_team"."id" 
     JOIN "committee" ON "members"."committee_id"="committee"."id"
@@ -51,13 +51,11 @@ router.post('/', (req, res) => {
 });
 
 router.delete('/', (req, res) => {
-    console.log('delete a member', req.body.first_name + " " + req.body.last_name);
     pool.query(`DELETE FROM "members"
     WHERE "first_name"=$1 AND "last_name"=$2;`,
         [req.body.first_name,
         req.body.last_name])
         .then((results) => {
-            console.log( results );
             res.sendStatus(200)
         }).catch((error) => {
             console.log('Error with server-side DELETE:', error);
@@ -87,7 +85,7 @@ router.put('/', (req, res) => {
     "member_since" = $15,
     "year_resigned" = $16,
     "dues_paid" = $17
-    WHERE "first_name"=$18 AND "last_name"=$19`,
+    WHERE "id"=$18`,
         [req.body.first_name,
             req.body.last_name,
             req.body.mobile,
@@ -105,8 +103,7 @@ router.put('/', (req, res) => {
             req.body.member_since,
             req.body.year_resigned,
             req.body.dues_paid,
-            req.body.first_name,
-            req.body.last_name])
+            req.body.id])
             .then((results) => {
                 res.send(200)
             }).catch((error) => {
