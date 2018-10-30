@@ -1,11 +1,10 @@
-import { MEMBER_ACTIONS } from '../actions/memberActions';
 import { combineReducers } from 'redux';
 
-const member = (state = [], action) => {
+const members = (state = [], action) => {
     console.log(action.type);
     console.log(action.payload);
     switch (action.type) {
-      case MEMBER_ACTIONS.GET_MEMBERS:
+      case 'SET_MEMBERS':
         return action.payload;
       default:
         return state;
@@ -15,7 +14,5 @@ const member = (state = [], action) => {
   
   // user will be on the redux state at:
   // state.user
-  export default combineReducers({
-    member,
-  });
+  export default members;
   

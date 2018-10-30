@@ -1,34 +1,19 @@
 import { put, takeLatest } from 'redux-saga/effects';
-import { MEMBER_ACTIONS } from '../actions/memberActions';
-import { getMembersRequest } from '../requests/memberRequests';
+import axios from 'axios';
 
 function* getMembers() {
     try {
       //stores server response.data as 'items'
-      const members = yield getMembersRequest();
+      const response = yield axios.get('/api/member');
       //stores items list in redux store
-      yield put({ type: MEMBER_ACTIONS.GET_MEMBERS, payload: members });
+      yield put({ type: 'SET_MEMBERS', payload: response.data });
     } catch (error) {
       console.log('Error fetching items', error);
     }
   }
 
 function* memberSaga() {
-    yield takeLatest(MEMBER_ACTIONS.GET_MEMBERS, getMembers);
-
-
-function* deleteMember() {
-    // yield takeLatest(MEMBER_ACTIONS.DELETE_MEMBER, deleteMember);
+    yield takeLatest('GET_MEMBERS', getMembers);
 }
-
-
-function* addMember() {
-    // yield takeLatest(MEMBER_ACTIONS.ADD_MEMBER, addMember);
-}
-
-function* updateMember() {
-    // yield takeLatest(MEMBER_ACTIONS.UPDATE_MEMBER, updateMember); 
-}
-  }
   
-  export default memberSaga;
+export default memberSaga;

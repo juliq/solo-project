@@ -33,7 +33,7 @@ input {
 }
 
 .log-in:hover, .log-out:hover, .register:hover {
-  background-color: #008183;
+  background-color: #86a738;
 }
 
 /* This line makes the "Register" and "Login" buttons look like links */
