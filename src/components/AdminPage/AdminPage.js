@@ -63,7 +63,7 @@ class AdminPage extends Component {
 
     render() {
         return (
-
+// is the style tag below necessary?
             <div style={{ margin: "20px" }}>
 
                 <div>

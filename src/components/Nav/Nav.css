@@ -6,15 +6,23 @@
     padding-left: 10px;
 }
 
+#logo { 
+  float: left;
+  margin: 40px;
+  /* vertical-align: middle; */
+}
+
 .nav {
   overflow: hidden;
-  background-color: #b266ff;
+  background-color: #a1499c;
+  height: 200px;
+  
 }
 
 .nav-link {
   float: left;
   color: #f2f2f2;
-  background-color: #b266ff;
+  background-color: #a1499c;
   text-align: center;
   padding: 24px 10px;
   text-decoration: none;

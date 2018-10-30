@@ -5,6 +5,11 @@ import axios from 'axios';
 import ReactTable from "react-table";
 import 'react-table/react-table.css';
 import './InfoPage.css';
+import { connect } from 'react-redux';
+import { MEMBER_ACTIONS } from '../../redux/actions/memberActions';
+import memberSaga from '../../redux/sagas/memberSaga';
+const mapStateToProps = ({members}) => ({members})
+
 
 
 // This is one of our simplest components
@@ -16,6 +21,8 @@ import './InfoPage.css';
 class InfoPage extends React.Component {
 
   componentWillMount() {
+    // memberSaga.getMembers()
+    // this.props.dispatch({ type: MEMBER_ACTIONS.GET_MEMBERS });
     this.getMemberInfo(); // calls the getMemberInfo function just before page load to display the table of members
   }
 
@@ -114,7 +121,7 @@ class InfoPage extends React.Component {
   handleChangeCommittee = (newSelectedOption) => {
     let result = this.state.data.filter(member => member.Committee_Name === newSelectedOption.label);
     this.setState({ ...this.state, selectedCommittee: newSelectedOption, selectedGardenTeam: null, showData: result });
-    
+
   }
 
   // GET Request for responses from the database
@@ -138,79 +145,88 @@ class InfoPage extends React.Component {
 
   createMemberCards() {
     let cards = [] // React requires a key prop for elements that are pushed into an array to identify them
-    
+
     for (let i = 0; i < this.state.showData.length; i++) {
       console.log('Image', this.state.showData[i]);
-      
+
       // let imgName = require("../../images/" + this.state.data[i].img_url)
       let imgName = require("../../images/" + this.state.showData[i].img_url)
       cards.push(   //this creates the html for the card for each member of showData
         // <div class="w-25 p-3" style="background-color: #eee;">
         <div className="card p-3 mb-5 w-25 p-3" key={i}>
-        {/* ^ mb-3 col-lg-4 col-md-4 col-sm-4 */}
-        <div className="shadow p-3 mb-5 bg-white rounded">
-        <div className="card-header text-center"><h5>{this.state.showData[i].first_name} {this.state.showData[i].last_name}</h5></div>
-          <div className="card-body text-center">
-            <img className="card-img-top" alt="member images" src={imgName} style={{ width: "60%" }} ></img>
-            {/* <h5 className="card-title">{this.state.showData[i].first_name} {this.state.showData[i].last_name}</h5> */}
-            {/* <h5 className="card-title"></h5> */}
-            <h6 className="card-subtitle" style={{padding: "10px"}}>{this.state.showData[i].mobile}</h6>
-            <p className="card-subtitle mb-2 text-muted">Garden Team: {this.state.showData[i].Garden_Name}</p>
-            <p className="card-subtitle mb-2 text-muted">Committee: {this.state.showData[i].Committee_Name}</p>
-          </div>
+          {/* ^ mb-3 col-lg-4 col-md-4 col-sm-4   */}
+          <div className="shadow p-3 mb-5 bg-white rounded" >
+            <div className="card-header text-center"><h5>{this.state.showData[i].first_name} {this.state.showData[i].last_name}</h5></div>
+            <div className="card-body text-center">
+              <img className="card-img-top" alt="member images" src={imgName} style={{ width: "60%" }} ></img>
+              {/* <h5 className="card-title">{this.state.showData[i].first_name} {this.state.showData[i].last_name}</h5> */}
+              {/* <h5 className="card-title"></h5> */}
+              <h6 className="card-subtitle" style={{ padding: "10px" }}>{this.state.showData[i].mobile}</h6>
+              <p className="card-subtitle mb-2 text-muted">Garden Team: {this.state.showData[i].Garden_Name}</p>
+              <p className="card-subtitle mb-2 text-muted">Committee: {this.state.showData[i].Committee_Name}</p>
+            </div>
           </div>
           {/* </div>  */}
-      </div>)
+        </div>)
     }
     return cards;
   }
 
+  resetForm = () => {
+    // what goes here?
+  }
 
 
   render() {
 
     return (
       <div style={{ margin: "30px" }}>
-      <div className="row" style={{ padding: "20px" }}> 
-      {/* // ^ lines the three buttons up in one row */}
-        <Button onClick={this.toggleTable}>{this.state.showTable ? "Member Photos" : "Member List"}</Button>
-        <div style={{ width: '200px', height: '50px' }}>
-          <Select
-            value={this.state.selectedGardenTeam}
-            onChange={this.handleChangeGardenTeam}
-            options={this.gardenTeamOptions}
-            placeholder='Select a Garden'
-          />
-        </div>
-        <div style={{ width: '200px', height: '50px' }}>
-          <Select
-            value={this.state.selectedCommittee}
-            onChange={this.handleChangeCommittee}
-            options={this.committeeOptions}
-            placeholder='Select a Committee'
-          />
-        </div>
-        {/* react table */}
-
-        {this.state.showTable ?
-          <div>
-            <ReactTable
-              data={this.state.showData} // data is a prop belonging to react table. It stays constant. showData has the members I want to show
-              columns={this.columns}
+        <div className="row" style={{ padding: "20px" }}>
+          {/* // ^ lines the three buttons up in one row */}
+          <Button onClick={this.toggleTable}>{this.state.showTable ? "Member Photos" : "Member List"}</Button>
+          <div style={{ width: '200px', height: '50px' }}>
+            <Select
+              value={this.state.selectedGardenTeam}
+              onChange={this.handleChangeGardenTeam}
+              options={this.gardenTeamOptions}
+              placeholder='Select a Garden'
             />
           </div>
-          :                               // ternary operator
+          <div style={{ width: '200px', height: '50px' }}>
+            <Select
+              value={this.state.selectedCommittee}
+              onChange={this.handleChangeCommittee}
+              options={this.committeeOptions}
+              placeholder='Select a Committee'
+            />
+          </div>
+
+          <div style={{padding: "10px"}}>
+            {/* // reset button below */}
+            <button
+              onClick={this.resetForm}
+              type="button">Reset</button>
+          </div>
+
+          {/* react table */}
+          {this.state.showTable ?
+            <div>
+              <ReactTable
+                data={this.state.showData} // data is a prop belonging to react table. It stays constant. showData has the members I want to show
+                columns={this.columns}
+              />
+            </div>
+            :                               // ternary operator
 
 
-          <div className="row">
-            
+            <div className="row">
+
               {this.createMemberCards()}
 
             </div>
+          }
 
-        }
-
-        {/* react grid */}
+          {/* react grid */}
         </div>
       </div>
     );
@@ -218,4 +234,4 @@ class InfoPage extends React.Component {
 
 
 }
-export default InfoPage;
+export default connect(mapStateToProps)(InfoPage);
