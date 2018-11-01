@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
 import './Nav.css';
@@ -7,30 +7,35 @@ import Logo from '../../images/CGCLogo300X300App.jpg';
 
 const Nav = (props) => (
   <div className="nav">
-    <Link to="/home">
+
+    <NavLink to="/home">
     <img src={Logo} id="logo" alt="Logo" style={{width: "15%"}} />
       <h2 className="nav-title">Cottagewood Garden Club</h2>
-    </Link>
+    </NavLink>
+
     <div className="nav-right">
-      <Link className="nav-link" to="/home">
+      <NavLink className="nav-link" to="/home">
         {/* Show this link if they are logged in or not,
         but call this link 'Home' if they are logged in,
         and call this link 'Login / Register' if they are not */}
         {props.user.id ? 'Home' : 'Login / Register'}
-      </Link>
+      </NavLink>
+
       {/* Show the link to the info page and the logout button if the user is logged in */}
       {props.user.id && (
         <>
-          <Link className="nav-link" to="/info">
-            Info Page
-          </Link>
-          <LogOutButton className="nav-link"/>
+          <NavLink className="nav-link" to="/info">
+            Members
+          </NavLink>
+          <LogOutButton className="nav-link" />
+          {/* className="nav-link" */}
         </>
       )}
+
       {/* Always show this link since the about page is not protected */}
-      <Link className="nav-link" to="/about">
+      {/* <NavLink className="nav-link" to="/about">
         About
-      </Link>
+      </NavLink> */}
     </div>
   </div>
 );
@@ -44,4 +49,4 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(Nav);
+export default withRouter(connect(mapStateToProps)(Nav));

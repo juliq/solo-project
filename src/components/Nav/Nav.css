@@ -15,6 +15,7 @@
   opacity: 1.0;
   background-image:url('../../images/lemonBallSedum2.jpg');
   background-size: cover;
+
 }
 
 #logo { 
@@ -23,13 +24,18 @@
   /* vertical-align: middle; */
 }
 
+.nav-link.active{
+  color: #eb99ff;
+}
+
 .nav-link {
+
   /* display: flex; */
   float: right;
-  color: #f2f2f2;
-  /* background-color: #a1499c; */
+  color: #ffffff;
+  background-color: Transparent !important;
   /* text-align: center; */
-  padding: 10px;
+  padding: 20px;
   text-decoration: none;
   font-size: 15px;
 
@@ -40,8 +46,13 @@
   outline:0;
 }
 
+
+
 .nav-link:hover {
-  background-color: #afea80;
+  background-color: none;
+  /* color: #a1499c */
+  color: #cccccc;
+
 }
 
 .nav-right {

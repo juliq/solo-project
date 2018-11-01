@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import LogOutButton from '../LogOutButton/LogOutButton';
+import './UserPage.css';
 
 class UserPage extends Component {
   logout = () => {
@@ -9,7 +10,7 @@ class UserPage extends Component {
 
   render() {
     return (
-      <div>
+      <div className="logout">
         <h1 id="welcome">
           Welcome, { this.props.user.username }!
         </h1>

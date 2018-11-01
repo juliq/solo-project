@@ -7,5 +7,12 @@
     /* border: none; */
 }
 
+.row {
+    padding: 20px;
+}
+
+.tablePage {
+    background-color: #fae6ff;
+}
 
 /* removed from a div class  style={{ color: "#eee", }}  */

@@ -163,8 +163,8 @@ class MemberForm extends Component {
     }
 
     handleDeleteMember(e) {
-        let fName=this.state.newMember.first_name
-        let lName=this.state.newMember.last_name
+        let fName = this.state.newMember.first_name
+        let lName = this.state.newMember.last_name
         swal({
             title: "Are you sure?",
             text: "Once deleted, you will not be able to recover this file!",
@@ -174,7 +174,7 @@ class MemberForm extends Component {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    axios.delete('/api/member', {data: {first_name: fName, last_name: lName}})//in axios delete, in order to send a body, need to include body as the value of the data key
+                    axios.delete('/api/member', { data: { first_name: fName, last_name: lName } })//in axios delete, in order to send a body, need to include body as the value of the data key
                         .then((response) => {
                             if (response.status === 200) {
                                 swal("Poof! Your file has been deleted!", {
@@ -196,7 +196,7 @@ class MemberForm extends Component {
     handleUpdate(e) {
         e.preventDefault();
         console.log(this.state.newMember);
-        axios.put('/api/member', this.state.newMember ) // newMember includes all the db fields
+        axios.put('/api/member', this.state.newMember) // newMember includes all the db fields
             .then((response) => {
                 console.log('this is the response for update member', response.status);
                 if (response.status === 200) {
@@ -211,8 +211,6 @@ class MemberForm extends Component {
     render() {
         return (
             <div>
-
-
                 <form className="container-fluid" style={{ height: "100%" }} onSubmit={this.handleFormSubmit}>
                     {/* Row 1 */}
                     <div className="row">
