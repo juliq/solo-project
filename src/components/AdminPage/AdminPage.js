@@ -37,7 +37,7 @@ class AdminPage extends Component {
             });
     }
 
-
+// <h2>Select a name to edit information in the database. You may add new member in the form below the names.</h2>
     createMemberPanels() {
         let panels = [] // React requires a key prop for elements that are pushed into an array to identify them
         console.log(this.state.data);

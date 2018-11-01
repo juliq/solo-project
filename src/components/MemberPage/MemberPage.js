@@ -187,14 +187,17 @@ class MemberPage extends React.Component {
 
     return (
         <div style={{ margin: "30px" }}>
-        <h2>Select a</h2>
-          <pre>
-            {/* {JSON.stringify(this.props, null, 2)} */}
+        <h2>Select a view:</h2>
+          {/* <pre>
+            {JSON.stringify(this.props.members[16] && this.props.members[16].Committee_Name, null, 2)}
           </pre>
-          <div className="row" style={{ padding: "20px" }}>
+          <pre>
+            {JSON.stringify(this.state.selectedCommittee && this.state.selectedCommittee.label, null, 2)}
+          </pre> */}
+          <div className="buttonRow" >
             {/* // ^ lines the three buttons up in one row */}
-            <Button onClick={this.toggleTable}>{this.state.showTable ? "Member Photos" : "Member List"}</Button>
-            <div style={{ width: '200px', height: '50px', padding: "5px" }}>
+            <Button onClick={this.toggleTable} style={{ border: '1px solid lightgray',  height: '38px', color: 'gray' }}className='memberPhotosButton'> {this.state.showTable ? "Member Photos" : "Member List"}</Button>
+            <div style={{ width: '200px' }}>
               <Select
                 value={this.state.selectedGardenTeam}
                 onChange={this.handleChangeGardenTeam}
@@ -202,7 +205,7 @@ class MemberPage extends React.Component {
                 placeholder='Select a Garden'
               />
             </div>
-            <div style={{ width: '250px', height: '50px', padding: "5px" }}>
+            <div style={{ width: '250px' }}>
               <Select
                 value={this.state.selectedCommittee}
                 onChange={this.handleChangeCommittee}
@@ -211,17 +214,20 @@ class MemberPage extends React.Component {
               />
             </div>
 
-            <div style={{ padding: "5px" }}>
+            <div>
               {/* // reset button below */}
               <button
                 onClick={this.resetForm}
-                type="button">Reset</button>
+                type="button"
+                className='resetButton'>Reset
+              </button>
             </div>
-
+            </div>
+            <div>
             {/* react table */}
 
             {this.state.showTable ?
-              <div>
+              <div className="table">
                 <ReactTable
                   data={showData} // data is a prop belonging to react table. It stays constant. showData has the members I want to show
                   columns={this.columns}
