@@ -1,3 +1,5 @@
+// This is the page that is kind of a double of the other Memberform.js. It can be commented out.
+
 import React, { Component } from "react";
 import axios from "axios";
 
@@ -14,23 +16,23 @@ class MemberForm extends Component {
 
         this.state = {
             newMember: {
-                first_name: "",
-                last_name: "",
-                mobile: "",
-                email: "",
-                address: "",
-                city: "",
-                zipcode: "",
-                BD: "",
-                img_url: "",
-                garden_team_id: "",
-                captain: "",
-                committee_id: "",
-                chair: "",
-                membership: "",
-                member_since: "",
+                first_name: '',
+                last_name: '',
+                mobile: '',
+                email: '',
+                address: '',
+                city: '',
+                zipcode: '',
+                BD: '',
+                img_url: '',
+                garden_team_id: '',
+                captain: '',
+                committee_id: '',
+                chair: '',
+                membership: '',
+                member_since: '',
                 year_resigned: null,
-                dues_paid: ""
+                dues_paid: ''
             },
 
             garden_team_id: ["1 (Boulder)", "2 (Butterfly)", "3 (Connie Getsch", "4 (Gazebo)", "5 (Wheel)", "6 (Affiliate)"],
@@ -126,6 +128,7 @@ class MemberForm extends Component {
                 console.log('this is the response for add member', response.status);
                 if (response.status === 200) {
                     this.handleClearForm(e)
+                    this.props.updateParent()
                 }
             }).catch((error) => {
                 console.log('error making get', error);
@@ -136,23 +139,23 @@ class MemberForm extends Component {
         e.preventDefault();
         this.setState({
             newMember: {
-                first_name: "",
-                last_name: "",
-                mobile: "",
-                email: "",
-                address: "",
-                city: "",
-                zipcode: "",
-                BD: "",
-                img_url: "",
-                garden_team_id: "",
-                captain: "",
-                committee_id: "",
-                chair: "",
-                membership: "",
-                member_since: "",
+                first_name: '',
+                last_name: '',
+                mobile: '',
+                email: '',
+                address: '',
+                city: '',
+                zipcode: '',
+                BD: '',
+                img_url: '',
+                garden_team_id: '',
+                captain: '',
+                committee_id: '',
+                chair: '',
+                membership: '',
+                member_since: '',
                 year_resigned: null,
-                dues_paid: "",
+                dues_paid: '',
 
             }
         });

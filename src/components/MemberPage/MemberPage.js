@@ -187,7 +187,7 @@ class MemberPage extends React.Component {
 
     return (
         <div style={{ margin: "30px" }}>
-        <h2>Select a view:</h2>
+        <h2 style={{color: '#a1499c'}}>Welcome to the Member Directory! Select a view:</h2>
           {/* <pre>
             {JSON.stringify(this.props.members[16] && this.props.members[16].Committee_Name, null, 2)}
           </pre>

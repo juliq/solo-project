@@ -8,3 +8,26 @@
  border-radius: 3px;
  box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
 } */
+
+.preAccordion {
+    padding: 10px;
+    height: 80px;
+    width: 80vw;
+    border: 1px solid #a1499c;
+    box-shadow: 2px 2px 2px #a1499c;
+    /* margin: auto; */
+    margin-bottom: 10px;
+    margin-top: 10px;
+    margin: auto;
+    /* margin-top: 10px;
+    margin-left: 20px; */
+    width: 80vw;
+    color: #a1499c;
+}
+
+.accordion {
+    
+    margin: auto;
+    width: 70vw;
+
+}

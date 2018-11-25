@@ -8,7 +8,7 @@ import './Footer.css'
 
 const Footer = () => (
   <footer>
-    &copy; Cottagewood Garden Club
+    {/* &copy; Cottagewood Garden Club */}
   </footer>
 );
 

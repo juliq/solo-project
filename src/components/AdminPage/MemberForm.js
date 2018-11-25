@@ -15,23 +15,23 @@ class MemberForm extends Component {
 
         this.state = {
             newMember: {
-                first_name: "",
-                last_name: "",
-                mobile: "",
-                email: "",
-                address: "",
-                city: "",
-                zipcode: "",
-                BD: "",
-                img_url: "",
-                garden_team_id: "",
-                captain: "",
-                committee_id: "",
-                chair: "",
-                membership: "",
-                member_since: "",
+                first_name: '',
+                last_name: '',
+                mobile: '',
+                email: '',
+                address: '',
+                city: '',
+                zipcode: '',
+                BD: '',
+                img_url: '',
+                garden_team_id: '',
+                captain: '',
+                committee_id: '',
+                chair: '',
+                membership: '',
+                member_since: '',
                 year_resigned: null,
-                dues_paid: ""
+                dues_paid: ''
             },
 
             garden_team_id: ["1 (Boulder)", "2 (Butterfly)", "3 (Connie Getsch", "4 (Gazebo)", "5 (Wheel)", "6 (Affiliate)"],
@@ -128,6 +128,7 @@ class MemberForm extends Component {
             .then((response) => {
                 console.log('this is the response for add member', response.status);
                 if (response.status === 200) {
+                    // this.props.updateParent()
                     this.handleClearForm(e)
                     swal("Good job!", "Your member was added to the database!", "success");
                 }
@@ -140,23 +141,23 @@ class MemberForm extends Component {
         e.preventDefault();
         this.setState({
             newMember: {
-                first_name: "",
-                last_name: "",
-                mobile: "",
-                email: "",
-                address: "",
-                city: "",
-                zipcode: "",
-                BD: "",
-                img_url: "",
-                garden_team_id: "",
-                captain: "",
-                committee_id: "",
-                chair: "",
-                membership: "",
-                member_since: "",
+                first_name: '',
+                last_name: '',
+                mobile: '',
+                email: '',
+                address: '',
+                city: '',
+                zipcode: '',
+                BD: '',
+                img_url: '',
+                garden_team_id: '',
+                captain: '',
+                committee_id: '',
+                chair: '',
+                membership: '',
+                member_since: '',
                 year_resigned: null,
-                dues_paid: "",
+                dues_paid: '',
 
             }
         });
@@ -167,7 +168,7 @@ class MemberForm extends Component {
         let lName = this.state.newMember.last_name
         swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this file!",
+            text: "You will not be able to recover this file!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
@@ -177,7 +178,8 @@ class MemberForm extends Component {
                     axios.delete('/api/member', { data: { first_name: fName, last_name: lName } })//in axios delete, in order to send a body, need to include body as the value of the data key
                         .then((response) => {
                             if (response.status === 200) {
-                                swal("Poof! Your file has been deleted!", {
+                                // this.props.updateParent()
+                                swal("Your file has been deleted!", {
                                     icon: "success",
                                 });
                             }
@@ -187,7 +189,7 @@ class MemberForm extends Component {
                         });
 
                 } else {
-                    swal("Your imaginary file is safe!");
+                    swal("Your file is safe!");
                 }
             });
         e.preventDefault();
@@ -200,7 +202,8 @@ class MemberForm extends Component {
             .then((response) => {
                 console.log('this is the response for update member', response.status);
                 if (response.status === 200) {
-                    swal("Good job!", "Your member was updated in the database!", "success");
+                    // this.props.updateParent()
+                    swal("Your member was updated in the database!", "success");
                 }
             }).catch((error) => {
                 console.log('error making update', error);
